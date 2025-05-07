@@ -7,20 +7,16 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.use((req, res, next) => {
-    console.log('req.originalUrl::>>', req.originalUrl);
-    if (req.originalUrl.includes('/webhook')) {
-      let data = '';
-      req.setEncoding('utf8');
-      req.on('data', (chunk) => {
-        data += chunk;
-      });
-      req.on('end', () => {
-        req.rawBody = data;
-        console.log('Raw body:', data);
-        next();
-      });
-    }
-    next();
+    let data = '';
+    req.setEncoding('utf8');
+    req.on('data', (chunk) => {
+      data += chunk;
+    });
+    req.on('end', () => {
+      req.rawBody = data;
+      console.log('Raw body:', data);
+      next();
+    });
   });
 
   // Cấu hình body-parser
