@@ -5,7 +5,7 @@ import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    bodyParser: false,
+    bodyParser: true,
   });
 
   // app.use((req, res, next) => {
