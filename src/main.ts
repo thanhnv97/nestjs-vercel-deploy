@@ -31,6 +31,11 @@ async function bootstrap() {
   // );
 
   console.log('1::>>', 1);
+
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.text());
+  app.use(bodyParser.raw({ type: '*/*' }));
+
   await app.listen(3000);
   console.log('2::>>', 2);
 }
