@@ -25,7 +25,7 @@ async function bootstrap() {
   // Cấu hình body-parser
   app.use(
     bodyParser.json({
-      verify: (req, res, buf) => {
+      verify: (req: any, res, buf) => {
         req.rawBody = buf.toString();
       },
     }),
