@@ -16,6 +16,7 @@ function RawBodyInterceptor() {
         });
         req.on('end', () => {
           (req as any).rawBody = data;
+          console.log('data::>>', data)
 
           bodyParser.json({
             verify: (req: any, res, buf) => {
