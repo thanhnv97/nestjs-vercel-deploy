@@ -1,4 +1,9 @@
-import { Module, RequestMethod } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RawBodyMiddleware } from './decorators/parse-raw-body.decorator';
