@@ -13,7 +13,7 @@ export function ParseRawBody() {
           bodyParser.json({
             verify: (req: any, res, buf) => {
               req.rawBody = buf.toString();
-            }
+            },
           })(request, request.res, (err) => {
             if (err) {
               console.error('Error parsing JSON:', err);
@@ -21,7 +21,7 @@ export function ParseRawBody() {
             resolve(next.handle());
           });
         });
-      }
+      },
     }),
     UseInterceptors({
       intercept: (context, next) => {
@@ -29,14 +29,18 @@ export function ParseRawBody() {
         const request = httpContext.getRequest<Request>();
 
         return new Promise((resolve) => {
-          bodyParser.urlencoded({ extended: true })(request, request.res, (err) => {
-            if (err) {
-              console.error('Error parsing urlencoded:', err);
-            }
-            resolve(next.handle());
-          });
+          bodyParser.urlencoded({ extended: true })(
+            request,
+            request.res,
+            (err) => {
+              if (err) {
+                console.error('Error parsing urlencoded:', err);
+              }
+              resolve(next.handle());
+            },
+          );
         });
-      }
+      },
     }),
     UseInterceptors({
       intercept: (context, next) => {
@@ -51,7 +55,7 @@ export function ParseRawBody() {
             resolve(next.handle());
           });
         });
-      }
+      },
     }),
     UseInterceptors({
       intercept: (context, next) => {
@@ -66,7 +70,7 @@ export function ParseRawBody() {
             resolve(next.handle());
           });
         });
-      }
-    })
+      },
+    }),
   );
 }
