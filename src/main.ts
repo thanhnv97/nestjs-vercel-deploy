@@ -28,9 +28,10 @@ async function bootstrap() {
     }),
   );
 
-  app.use(bodyParser.urlencoded({ extended: true }));
-  app.use(bodyParser.text());
-  app.use(bodyParser.raw({ type: '*/*' }));
+  // app.use(bodyParser.urlencoded({ extended: true }));
+  // app.use(bodyParser.text());
+  // app.use(bodyParser.raw({ type: '*/*' }));
+
   await app.listen(3000);
 }
 bootstrap();
