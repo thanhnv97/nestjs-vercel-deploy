@@ -1,6 +1,5 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, RawBodyRequest, Req } from '@nestjs/common';
 import { AppService } from './app.service';
-import { UseRawBody } from './decorators/use-raw-body.decorator';
 
 @Controller()
 export class AppController {
@@ -12,9 +11,8 @@ export class AppController {
   }
 
   @Post('/webhook')
-  @UseRawBody()
-  callback(@Body() data: any): string {
-    console.log('data', data);
+  callback(@Req() req: RawBodyRequest<Request>): string {
+    console.log('req', req.rawBody);
     return '1';
   }
 }
