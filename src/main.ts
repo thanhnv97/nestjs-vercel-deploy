@@ -7,6 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.use((req, res, next) => {
+    console.log('req.originalUrl::>>', req.originalUrl);
     if (req.originalUrl.includes('/webhook')) {
       let data = '';
       req.setEncoding('utf8');
