@@ -1,23 +1,49 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import { applyDecorators, UseInterceptors } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import * as bodyParser from 'body-parser';
 
-@Injectable()
-export class RawBodyMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
-    bodyParser.raw({ type: '*/*' })(req, res, (err) => {
-      if (err) {
-        return next(err);
-      }
-      const rawBody = (req as any).body;
-      (req as any).rawBody = rawBody;
+function RawBodyInterceptor() {
+  return UseInterceptors({
+    intercept(context, next) {
+      const req = context.switchToHttp().getRequest();
+      const res = context.switchToHttp().getResponse();
 
-      bodyParser.json()(req, res, (err) => {
-        if (err) {
-          return next(err);
-        }
-        bodyParser.urlencoded({ extended: true })(req, res, next);
+      return new Observable((observer) => {
+        let data = '';
+        req.setEncoding('utf8');
+        req.on('data', (chunk) => {
+          data += chunk;
+        });
+        req.on('end', () => {
+          (req as any).rawBody = data;
+
+          bodyParser.json({
+            verify: (req: any, res, buf) => {
+              req.rawBody = buf.toString();
+            },
+          })(req, res, (err) => {
+            if (err) return observer.error(err);
+
+            bodyParser.urlencoded({ extended: true })(req, res, (err) => {
+              if (err) return observer.error(err);
+
+              bodyParser.text()(req, res, (err) => {
+                if (err) return observer.error(err);
+
+                bodyParser.raw({ type: '*/*' })(req, res, (err) => {
+                  if (err) return observer.error(err);
+
+                  next.handle().subscribe(observer);
+                });
+              });
+            });
+          });
+        });
       });
-    });
-  }
+    },
+  });
+}
+
+export function ParseRawBody() {
+  return applyDecorators(RawBodyInterceptor());
 }
