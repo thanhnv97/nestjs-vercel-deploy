@@ -4,21 +4,21 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    bodyParser: false,
+    // bodyParser: false,
   });
-
-  app.use((req, res, next) => {
-    let data = '';
-    req.setEncoding('utf8');
-    req.on('data', (chunk) => {
-      data += chunk;
-    });
-    req.on('end', () => {
-      req.rawBody = data;
-      req.body = data;
-      next();
-    });
-  });
+  //
+  // app.use((req, res, next) => {
+  //   let data = '';
+  //   req.setEncoding('utf8');
+  //   req.on('data', (chunk) => {
+  //     data += chunk;
+  //   });
+  //   req.on('end', () => {
+  //     req.rawBody = data;
+  //     req.body = data;
+  //     next();
+  //   });
+  // });
 
   // // Cấu hình body-parser
   // app.use(
