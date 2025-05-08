@@ -18,11 +18,11 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(CustomBodyParserMiddleware)
-      .forRoutes({ path: '(.*)webhook', method: RequestMethod.POST });
+      .forRoutes({ path: '*/webhook', method: RequestMethod.POST });
 
     consumer
       .apply(bodyParser.json(), bodyParser.urlencoded({ extended: true }))
-      .exclude({ path: '(.*)/webhook', method: RequestMethod.POST })
+      .exclude({ path: '*/webhook', method: RequestMethod.POST })
       .forRoutes('*');
   }
 }
