@@ -1,27 +1,34 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
-import * as getRawBody from 'raw-body';
+import { Response, NextFunction } from 'express';
 
 @Injectable()
 export class CustomBodyParserMiddleware implements NestMiddleware {
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: any, res: Response, next: NextFunction) {
     if (req.readable) {
-      try {
-        const raw = await getRawBody(req);
-        const text = raw.toString().trim();
-        (req as any).rawBody = text;
-
-        // Attempt to parse JSON
-        try {
-          req.body = JSON.parse(text);
-        } catch (e) {
-          req.body = text;
-        }
-      } catch (error) {
-        next(error);
-        return;
-      }
+      getRequestBody(req);
     }
     next();
   }
+}
+
+function getRequestBody(req) {
+  return new Promise((resolve, reject) => {
+    let data = '';
+    req.setEncoding('utf8');
+
+    req.on('data', (chunk) => {
+      data += chunk; // Accumulate data chunks
+    });
+
+    req.on('end', () => {
+      req.rawBody = data;
+      req.body = data;
+      console.log('Raw body:', data);
+      resolve(data); // Resolve the promise with the raw data
+    });
+
+    req.on('error', (error) => {
+      reject(error); // Reject the promise if there's an error
+    });
+  });
 }
