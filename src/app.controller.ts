@@ -10,7 +10,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post('/webhook')
+  @Post('test/webhook')
   callback(@Req() req): string {
     console.log('req', req.rawBody);
     console.log('req', req.body);
