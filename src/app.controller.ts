@@ -17,6 +17,7 @@ export class AppController {
     return '1';
   }
 
+  // not working with api
   @Post('/demo')
   callbac1k(@Req() req): string {
     console.log('req', req.rawBody);
