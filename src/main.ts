@@ -36,9 +36,9 @@ async function bootstrap() {
   // app.use(bodyParser.text());
   // app.use(bodyParser.raw({ type: '*/*' }));
 
-  app.useBodyParser('json');
-  app.useBodyParser('text');
-  app.useBodyParser('raw');
+  // app.useBodyParser('json');
+  // app.useBodyParser('text');
+  // app.useBodyParser('raw');
 
   await app.listen(3000);
   console.log('2::>>', 2);
