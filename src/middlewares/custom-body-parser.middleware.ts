@@ -5,7 +5,7 @@ import { Response, NextFunction } from 'express';
 export class CustomBodyParserMiddleware implements NestMiddleware {
   async use(req: any, res: Response, next: NextFunction) {
     if (req.readable) {
-      getRequestBody(req);
+      await getRequestBody(req);
     }
     next();
   }
