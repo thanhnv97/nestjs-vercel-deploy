@@ -16,4 +16,11 @@ export class AppController {
     console.log('req', req.body);
     return '1';
   }
+
+  @Post('/demo')
+  callbac1k(@Req() req): string {
+    console.log('req', req.rawBody);
+    console.log('req', req.body);
+    return '1';
+  }
 }

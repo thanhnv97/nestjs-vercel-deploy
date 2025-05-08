@@ -7,19 +7,19 @@ async function bootstrap() {
     bodyParser: false,
   });
 
-  app.use((req, res, next) => {
-    let data = '';
-    req.setEncoding('utf8');
-    req.on('data', (chunk) => {
-      data += chunk;
-    });
-    req.on('end', () => {
-      req.rawBody = data;
-      req.body = data;
-      console.log('Raw body:', data);
-      next();
-    });
-  });
+  // app.use((req, res, next) => {
+  //   let data = '';
+  //   req.setEncoding('utf8');
+  //   req.on('data', (chunk) => {
+  //     data += chunk;
+  //   });
+  //   req.on('end', () => {
+  //     req.rawBody = data;
+  //     req.body = data;
+  //     console.log('Raw body:', data);
+  //     next();
+  //   });
+  // });
 
   // // Cấu hình body-parser
   // app.use(
