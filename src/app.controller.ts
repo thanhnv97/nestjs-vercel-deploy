@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 
-@Controller()
+@Controller('test')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
@@ -10,7 +10,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post('test/webhook')
+  @Post('/webhook')
   callback(@Req() req, @Body() data): string {
     console.log('req', req.rawBody);
     console.log('req', req.body);
