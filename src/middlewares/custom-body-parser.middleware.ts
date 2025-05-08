@@ -23,7 +23,6 @@ function getRequestBody(req) {
     req.on('end', () => {
       req.rawBody = data;
       req.body = data;
-      console.log('Raw body:', data);
       resolve(data); // Resolve the promise with the raw data
     });
 
