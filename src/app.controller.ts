@@ -25,3 +25,5 @@ export class AppController {
     return '1';
   }
 }
+
+// {"qrcode":"https://tfmshippingsys.fastmove.com.tw/tApi/images/redeem_sample.jpg","rcode":"2505060226002472sRilpGD","qrcodeType":0,"encStr":"9a94f7190b5a12789c29a59a8e5de1f9c3e2386e","resultcode":"000","resultmsg":"success","iccid":"250506022600247GPTMXA02"}
