@@ -4,7 +4,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    // bodyParser: false,
+    bodyParser: false,
   });
   //
   // app.use((req, res, next) => {
