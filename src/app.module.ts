@@ -17,20 +17,13 @@ import { WebhookController } from './webhook.controller';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    // consumer
-    //   .apply(CustomBodyParserMiddleware)
-    //   .forRoutes({ path: '*/webhook', method: RequestMethod.POST });
-
-    // consumer
-    //   .apply(bodyParser.json(), bodyParser.urlencoded({ extended: true }))
-    //   .exclude({ path: '*/webhook', method: RequestMethod.POST })
-    //   .forRoutes('*');
-
-    consumer.apply(CustomBodyParserMiddleware).forRoutes(WebhookController);
+    consumer
+      .apply(CustomBodyParserMiddleware)
+      .forRoutes({ path: '/webhook/{*splat}', method: RequestMethod.POST });
 
     consumer
       .apply(bodyParser.json(), bodyParser.urlencoded({ extended: true }))
-      .exclude({ path: 'webhook/*', method: RequestMethod.POST })
+      .exclude({ path: '/webhook/{*splat}', method: RequestMethod.POST })
       .forRoutes('*');
   }
 }
