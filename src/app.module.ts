@@ -8,21 +8,29 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CustomBodyParserMiddleware } from './middlewares/custom-body-parser.middleware';
 import * as bodyParser from 'body-parser';
+import { WebhookController } from './webhook.controller';
 
 @Module({
   imports: [],
-  controllers: [AppController],
+  controllers: [AppController, WebhookController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(CustomBodyParserMiddleware)
-      .forRoutes({ path: '*/webhook', method: RequestMethod.POST });
+    // consumer
+    //   .apply(CustomBodyParserMiddleware)
+    //   .forRoutes({ path: '*/webhook', method: RequestMethod.POST });
+
+    // consumer
+    //   .apply(bodyParser.json(), bodyParser.urlencoded({ extended: true }))
+    //   .exclude({ path: '*/webhook', method: RequestMethod.POST })
+    //   .forRoutes('*');
+
+    consumer.apply(CustomBodyParserMiddleware).forRoutes(WebhookController);
 
     consumer
       .apply(bodyParser.json(), bodyParser.urlencoded({ extended: true }))
-      .exclude({ path: '*/webhook', method: RequestMethod.POST })
+      .exclude({ path: 'webhook/*', method: RequestMethod.POST })
       .forRoutes('*');
   }
 }
